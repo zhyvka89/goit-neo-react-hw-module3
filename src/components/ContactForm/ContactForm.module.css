@@ -25,3 +25,8 @@
 .button:hover {
   background-color: rgba(60, 60, 209, .4);
 }
+
+.error_text {
+  color: red;
+  font-size: 12px;
+}
