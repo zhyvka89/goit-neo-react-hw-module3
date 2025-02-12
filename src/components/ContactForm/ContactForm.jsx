@@ -2,8 +2,9 @@ import { useId } from "react";
 import { form_wrapper, form, input, button, error_text } from "./ContactForm.module.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { v4 as uuidv4 } from 'uuid';
 
-function ContactForm() {
+function ContactForm({addContact}) {
   const nameId = useId();
   const numberId = useId();
 
@@ -17,18 +18,24 @@ function ContactForm() {
 
   const validationSchema = Yup.object().shape({
     contactName: Yup.string()
-      .min(2, "Too Short!")
+      .min(3, "Too Short!")
       .max(50, "Too Long!")
       .required("Field name is required!"),
     contactNumber: Yup.string()
       .matches(numberRegExp, "Number is not valid!")
-      .min(2, "Too Short!")
+      .min(3, "Too Short!")
       .max(50, "Too Long!")
       .required("Field number is required!"),
   });
 
-  function handleFormSubmit() {
-    //
+  function handleFormSubmit(values, actions) {
+    const {contactName, contactNumber} = values;
+    addContact({
+      name: contactName,
+      number: contactNumber,
+      id: uuidv4()
+    })
+    actions.resetForm()
   }
 
   return (
