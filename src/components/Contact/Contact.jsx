@@ -3,7 +3,8 @@ import { ImUser } from "react-icons/im";
 
 import { contact_card, icon, button } from "./Contact.module.css";
 
-function Contact({ id, name, number }) {
+function Contact({ id, name, number, deleteContact }) {
+ 
   return (
     <div className={contact_card}>
       <div>
@@ -17,7 +18,7 @@ function Contact({ id, name, number }) {
         </p>
       </div>
       <div>
-        <button className={button} type="button">Delete</button>
+        <button className={button} type="button" onClick={() => deleteContact(id)}>Delete</button>
       </div>
     </div>
   );
