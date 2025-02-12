@@ -1,10 +1,16 @@
 import { useId } from "react";
-import { form_wrapper, form, input, button, error_text } from "./ContactForm.module.css";
+import {
+  form_wrapper,
+  form,
+  input,
+  button,
+  error_text,
+} from "./ContactForm.module.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-function ContactForm({addContact}) {
+function ContactForm({ addContact }) {
   const nameId = useId();
   const numberId = useId();
 
@@ -29,13 +35,13 @@ function ContactForm({addContact}) {
   });
 
   function handleFormSubmit(values, actions) {
-    const {contactName, contactNumber} = values;
+    const { contactName, contactNumber } = values;
     addContact({
       name: contactName,
       number: contactNumber,
-      id: uuidv4()
-    })
-    actions.resetForm()
+      id: uuidv4(),
+    });
+    actions.resetForm();
   }
 
   return (
@@ -48,7 +54,11 @@ function ContactForm({addContact}) {
         <Form className={form}>
           <label htmlFor={nameId}>Name</label>
           <Field className={input} type="text" name="contactName" id={nameId} />
-          <ErrorMessage className={error_text} name="contactName" component="span" />
+          <ErrorMessage
+            className={error_text}
+            name="contactName"
+            component="span"
+          />
 
           <label htmlFor={numberId}>Number</label>
           <Field
@@ -57,7 +67,11 @@ function ContactForm({addContact}) {
             name="contactNumber"
             id={numberId}
           />
-          <ErrorMessage className={error_text} name="contactNumber" component="span" />
+          <ErrorMessage
+            className={error_text}
+            name="contactNumber"
+            component="span"
+          />
 
           <button className={button} type="submit">
             Add Contact
