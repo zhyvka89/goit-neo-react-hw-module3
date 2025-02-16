@@ -20,14 +20,14 @@ function App() {
     );
   }
 
-  // const foundContacts = contacts.filter(contact => contact.name.toLowerCase().includes(searchValue.toLowerCase()))
+  const foundContacts = contacts.filter(contact => contact.name.toLowerCase().includes(searchValue.toLowerCase()))
 
   return (
     <div className={phonebook_container}>
       <h1 className={title}>Phonebook</h1>
       <ContactForm addContact={addContact} />
-      <SearchBox searchContact={setSearchValue} />
-      <ContactList contacts={contacts} deleteContact={deleteContact} />
+      <SearchBox value={searchValue} searchContact={setSearchValue} />
+      <ContactList contacts={foundContacts} deleteContact={deleteContact} />
     </div>
   );
 }
