@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ContactForm from "./components/ContactForm/ContactForm";
 import SearchBox from "./components/SearchBox/SearchBox";
 import ContactList from "./components/ContactList/ContactList";
 import { phonebook_container, title } from "./App.module.css";
-
-import defaultContacts from "./contacts.json";
+import Notification from "./components/Notification/Notification";
 
 function App() {
-  const [contacts, setContacts] = useState(defaultContacts);
+  const [contacts, setContacts] = useState(() => {
+    const contactsData = localStorage.getItem("contacts");
+
+    if (contactsData) return JSON.parse(contactsData);
+
+    return [];
+  });
   const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  });
 
   function addContact(newContact) {
     setContacts((prevContacts) => [...prevContacts, newContact]);
@@ -20,14 +29,24 @@ function App() {
     );
   }
 
-  const foundContacts = contacts.filter(contact => contact.name.toLowerCase().includes(searchValue.toLowerCase()))
+  const foundContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <div className={phonebook_container}>
       <h1 className={title}>Phonebook</h1>
       <ContactForm addContact={addContact} />
       <SearchBox value={searchValue} searchContact={setSearchValue} />
-      <ContactList contacts={foundContacts} deleteContact={deleteContact} />
+      {contacts.length || foundContacts.length ? (
+        <ContactList contacts={foundContacts} deleteContact={deleteContact} />
+      ) : (
+        <Notification> Your contacts list is Empty! </Notification>
+      )}
+
+      {!foundContacts.length && contacts.length > 0 && (
+        <Notification> No found contacts! </Notification>
+      )}
     </div>
   );
 }
